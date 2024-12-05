@@ -969,6 +969,9 @@ require('lazy').setup({
       { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
     },
   },
+
+  -- Terminal. Specially for floating ones
+  { 'akinsho/toggleterm.nvim', version = '*', config = true },
 }, {
   ui = {
     -- If you are using a Nerd Font: set icons to an empty table which will use the
@@ -990,6 +993,16 @@ require('lazy').setup({
     },
   },
 })
+
+-- Setting lazygit in a floating terminal
+local Terminal = require('toggleterm.terminal').Terminal
+local lazygit = Terminal:new { cmd = 'lazygit', hidden = true, dir = 'git_dir', direction = 'float' }
+
+function _lazygit_toggle()
+  lazygit:toggle()
+end
+
+vim.api.nvim_set_keymap('n', '<leader>g', '<cmd>lua _lazygit_toggle()<CR>', { noremap = true, silent = true })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
